@@ -39,8 +39,8 @@ void uart1_init(const uart_config_t *config)
 
     USART1->CR1 = (uint32_t)config->word_length |
                   (uint32_t)config->parity |
-                  USART_CR1_TE |
-                  USART_CR1_RE;
+                  USART_CR1_TE;
+                  
 
     USART1->CR2 = (uint32_t)config->stop_bits;
     USART1->CR3 = 0U;
@@ -198,26 +198,24 @@ static void uart1_enable_gpio_and_usart_clocks(void)
 static void uart1_configure_pins(void)
 {
     const uint32_t pin9_pos = 18U;
-    const uint32_t pin10_pos = 20U;
+    // const uint32_t pin10_pos = 20U;
     const uint32_t af7 = 7U;
 
     /*
      * USART1 on STM32F401 uses PA9 = TX and PA10 = RX.
      * Both pins must be configured as alternate-function mode.
      */
-    GPIOA->MODER &= ~((0x3UL << pin9_pos) | (0x3UL << pin10_pos));
-    GPIOA->MODER |= ((0x2UL << pin9_pos) | (0x2UL << pin10_pos));
+    GPIOA->MODER &= ~((0x3UL << pin9_pos) );
+    GPIOA->MODER |= ((0x2UL << pin9_pos) );
 
-    GPIOA->OTYPER &= ~((1UL << 9U) | (1UL << 10U));
-    GPIOA->OSPEEDR |= ((0x3UL << pin9_pos) | (0x3UL << pin10_pos));
+    GPIOA->OTYPER &= ~((1UL << 9U));
+    GPIOA->OSPEEDR |= ((0x3UL << pin9_pos) );
 
-    GPIOA->PUPDR &= ~((0x3UL << pin9_pos) | (0x3UL << pin10_pos));
-    GPIOA->PUPDR |= (0x1UL << pin10_pos);
+    GPIOA->PUPDR &= ~((0x3UL << pin9_pos) );
+    // GPIOA->PUPDR |= (0x1UL << pin10_pos);
 
-    GPIOA->AFR[1] &= ~((0xFU << ((9U - 8U) * 4U)) |
-                        (0xFU << ((10U - 8U) * 4U)));
-    GPIOA->AFR[1] |= ((af7 << ((9U - 8U) * 4U)) |
-                       (af7 << ((10U - 8U) * 4U)));
+    GPIOA->AFR[1] &= ~((0xFU << ((9U - 8U) * 4U)) );
+    GPIOA->AFR[1] |= ((af7 << ((9U - 8U) * 4U)) );
 }
 
 static uint16_t uart1_next_index(uint16_t index)

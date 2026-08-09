@@ -17,18 +17,19 @@ MCU := cortex-m4
 LDSCRIPT := STM32F401XX_FLASH.ld
 
 C_SOURCES := \
-Core/Src/main.c \
-Core/Src/gpio.c \
-Core/Src/i2c.c \
-Core/Src/uart.c \
-Core/Src/spi.c \
-Core/Src/system_stm32f4xx.c
+main.c \
+drivers/Src/gpio.c \
+drivers/Src/i2c.c \
+drivers/Src/uart.c \
+drivers/Src/spi.c \
+drivers/Src/system_stm32f4xx.c
 
 ASM_SOURCES := \
-Core/Src/startup_stm32f401xc.s
+drivers/Src/startup_stm32f401xc.s
 
 INCLUDES := \
--ICore/Inc \
+-I. \
+-Idrivers/Inc \
 -ICMSIS/Core/Include \
 -ICMSIS/Device/ST/STM32F4xx/Include
 
