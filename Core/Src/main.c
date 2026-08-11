@@ -17,6 +17,7 @@ int main(void)
     gpio_enable_clock(LED_PORT);
     gpio_config_output(LED_PORT, LED_PIN);
     gpio_config_output(LED_PORT, LED_PIN2);
+    
     gpio_write(LED_PORT, LED_PIN, false);
     gpio_write(LED_PORT, LED_PIN2, false);
 
@@ -24,13 +25,15 @@ int main(void)
         "Hello From STEVAL \r\n";
 
     uart_config_t uart_config = {
-        .baud_rate = 9600U,
+        .baud_rate = 115200U,
         .word_length = UART_WORD_LENGTH_8B,
         .parity = UART_PARITY_NONE,
         .stop_bits = UART_STOP_BITS_1
     };
 
     uart1_init(&uart_config);
+    gpio_config_output(UART_PORT, UART_RX_PIN);
+    gpio_write(UART_PORT, UART_RX_PIN, false);
 
 
 
@@ -38,6 +41,7 @@ int main(void)
         uart1_write_blocking(message_buffer, sizeof(message_buffer) - 1U);
         gpio_toggle(LED_PORT, LED_PIN);
         gpio_toggle(LED_PORT, LED_PIN2);
+        gpio_toggle(UART_PORT, UART_RX_PIN);
         delay_cycles(1600000U);
     }
 }

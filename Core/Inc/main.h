@@ -12,6 +12,8 @@
 #define LED_PORT GPIOB
 #define LED_PIN  5U
 #define LED_PIN2 4U
+#define UART_PORT GPIOA 
+#define UART_RX_PIN 10U     
 
 void delay_cycles(volatile uint32_t cycles);
 
